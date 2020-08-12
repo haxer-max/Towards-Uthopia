@@ -1,8 +1,7 @@
 #!/usr/bin/env node
 
-/**
- * Module dependencies.
- */
+var dotenv = require('dotenv');
+dotenv.config();
 
 var app = require('../app');
 var debug = require('debug')('blog:server');

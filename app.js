@@ -5,6 +5,8 @@ var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 //var expressLayouts = require('express-ejs-layouts');
 
+
+
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 
@@ -34,8 +36,20 @@ app.get('/a', (req,res)=>{
 });
 */
 var mongoose = require('mongoose');
-mongoose.connect('mongodb://localhost:27017/test2');
-var blabla=mongoose.model('blog',{title:String, content:String});
+//mongoose.connect('mongodb://localhost:27017/test2', { useNewUrlParser: true });
+//*
+var dotenv = require('dotenv');
+dotenv.config();
+mongoose.connect(process.env.MONGO_URI, {
+useUnifiedTopology: true,
+useNewUrlParser: true,
+})
+.then(() => console.log('DB Connected!'))
+.catch(err => {
+  console.log(`DB Connection Error: ${err.message}`);
+});
+//*/
+var blabla=mongoose.model('blogs',{title:String, content:String});
 app.get('/a', (req,res)=>{
   blabla.find((err,blog)=>{
     res.send(blog);
