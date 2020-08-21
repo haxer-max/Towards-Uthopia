@@ -1,8 +1,12 @@
-var mongoose = require('mongoose');
+const mongoose = require('mongoose');
+
+blogPostmongoose.Schema
 
 
 
-var blabla=mongoose.model('blog',{title:String, content:String});
+const blabla=mongoose.model('blog',{
+    title:String, content:String
+});
 
 module.exports = blabla;
 
