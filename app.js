@@ -19,39 +19,31 @@ mongoose
 
 //
 
-//importing routes
-const indexRouter = require("./routes/index");
-const usersRouter = require("./routes/users");
+/*importing routes */
+const indexRouter = require("./api/routes/index");
+const usersRouter = require("./api/routes/users");
+const blogsRouter = require("./api/routes/blogs");
 
 //
 
 const app = express();
 
 // view engine setup
-app.set("views", path.join(__dirname, "views"));
+app.set("views", path.join(__dirname, "frontend/views"));
 app.set("view engine", "ejs");
 
 app.use(logger("dev"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
-app.use(express.static(path.join(__dirname, "public")));
+app.use(express.static(path.join(__dirname, "frontend/public")));
 
 //
 
-//using routes
+/*using routes */
 app.use("/", indexRouter);
 app.use("/users", usersRouter);
-
-const blabla = mongoose.model("blogs", { title: String, content: String });
-app.get("/a", (req, res) => {
-  blabla
-    .find({})
-    .exec()
-    .then((blog) => {
-      res.send(blog);
-    });
-});
+app.use("/blogs", blogsRouter);
 
 //
 
