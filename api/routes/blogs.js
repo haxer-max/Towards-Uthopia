@@ -6,6 +6,7 @@ const Blog = require("../models/blogs");
 
 router.get("/a", (req, res) => {
     Blog.find({})
+        .select('_id title content')
         .exec()
         .then((blog) => {
             res.send(blog);
