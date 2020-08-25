@@ -41,6 +41,30 @@ app.use(express.static(path.join(__dirname, "frontend/public")));
 
 //
 
+const User = require("./api/models/users");
+const passport = require("passport");
+const passportJwt = require("passport-jwt");
+const JwtStrategy = passportJwt.Strategy;
+const ExtractJwt = passportJwt.ExtractJwt;
+
+const options = {
+    jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
+    secretOrKey: process.env.SECRET,
+};
+
+
+passport.use(new JwtStrategy(options, async (payload, next) => {
+    User.findById(payload.id)
+        .exec()
+        .then((user) => {
+            next(null, user);
+        });
+
+}));
+
+app.use(passport.initialize());
+
+
 /*using routes */
 app.use("/", indexRouter);
 app.use("/users", usersRouter);

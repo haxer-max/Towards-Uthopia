@@ -2,6 +2,7 @@ const express = require("express");
 const router = express.Router();
 const mongoose = require("mongoose");
 const bcrypt = require("bcrypt");
+const jwt =require('jsonwebtoken')
 const saltRounds = 10;
 
 const User = require("../models/users");
@@ -70,7 +71,9 @@ router.post("/login", (req, res) => {
                         console.log(user);
 
                         if (match) {
-                            res.send("yey");
+                            const payload={id: user._id}
+                            const token= jwt.sign(payload,process.env.SECRET)
+                            res.send(token);
                         } else {
                             res.send("nah");
                         }
