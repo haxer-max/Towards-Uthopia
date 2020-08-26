@@ -36,7 +36,7 @@ router.post("/register", (req, res) => {
             return user.save();
         })
         .then((result) => {
-            res.send("user added");
+            res.send(result);
         })
         .catch((err) => {
             console.log("BRUHBRUH");
@@ -57,6 +57,14 @@ router.delete("/:ID/delete_blog", (req, res) => {
         });
 });
 
+router.get("/login",(req,res)=>{
+
+    res.render('login');
+
+
+
+})
+
 router.post("/login", (req, res) => {
     User.findOne({ email: req.body.email })
         .exec()
@@ -73,7 +81,8 @@ router.post("/login", (req, res) => {
                         if (match) {
                             const payload={id: user._id}
                             const token= jwt.sign(payload,process.env.SECRET)
-                            res.send(token);
+                            res.setHeader('Authorization', 'Bearer '+ token);
+                            res.redirect('http://localhost:3000/protec');
                         } else {
                             res.send("nah");
                         }

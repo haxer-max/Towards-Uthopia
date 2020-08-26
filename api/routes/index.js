@@ -10,6 +10,7 @@ router.get('/', function(req, res, next) {
 router.get('/protec', 
     passport.authenticate('jwt',{session: false}),
     (req,res)=>{
+        console.log(req.isAuthenticated())
         res.send(req.user);
     }
 )

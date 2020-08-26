@@ -6,16 +6,21 @@ const userSchema = mongoose.Schema({
     
     email: {
         type: String,
-        require: true,
-        unique: true,
-        match: /[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/,
-        max:255,
+        //require: true,
+        //unique: true,
+        //match: /[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/,
+        //max:255,
 
     },
     
     password: {
         type: String,
-        require: true,
+        //require: true,
+    },
+
+    googleId: {
+        type: String,
+        //require: true,
     },
 
     /*
