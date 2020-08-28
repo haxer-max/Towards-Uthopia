@@ -14,4 +14,21 @@ router.get('/protec',
         res.send(req.user);
     }
 )
+
+router.get('/get', 
+    //Epassport.authenticate('google', {session: false,scope: ['profile', 'email']}),
+    (req,res)=>{
+        console.log(req.isAuthenticated())
+        res.send(req.cookies);//.myGreatBlog);
+    }
+)
+
+router.get('/set', 
+    //Epassport.authenticate('google', {session: false,scope: ['profile', 'email']}),
+    (req,res)=>{
+        //console.log(req.isAuthenticated())
+        res.cookie('myGreatBlog', 'hey there');
+        res.send("done");
+    }
+)
 module.exports = router;
