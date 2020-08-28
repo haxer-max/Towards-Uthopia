@@ -1,10 +1,18 @@
 const express = require('express');
 const router = express.Router();
 const passport = require('passport')
-c=[]
+const User = require("../models/users");
+const Blog = require("../models/blogs");
+
 /* GET home page. */
 router.get('/', function(req, res, next) {
-  res.render('index', { title: 'Express' });
+    Blog.find({})
+    .exec()
+    .then((blogs) => {
+        //res.send(blogs);
+        res.render('index', { blogs : blogs });
+    });
+    
 });
 
 router.get('/protec', 

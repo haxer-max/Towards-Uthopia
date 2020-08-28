@@ -27,6 +27,7 @@ mongoose
 const indexRouter = require("./api/routes/index");
 const usersRouter = require("./api/routes/users");
 const blogsRouter = require("./api/routes/blogs");
+const profileRouter = require("./api/routes/profile");
 
 //
 
@@ -80,6 +81,7 @@ app.get('/auth/google/callback',
 app.use("/", indexRouter);
 app.use("/users", usersRouter);
 app.use("/blogs", blogsRouter);
+app.use("/profile", profileRouter);
 
 //
 
