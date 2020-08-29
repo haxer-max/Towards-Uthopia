@@ -1,24 +1,26 @@
 <%- include('../partial/header') %>
-
 <div style="width: 80%; margin: auto; margin-top: 30px; background-color: white; border-radius: 4%; padding: 3%; max-width: 700px;" >
-
     <form action="http://localhost:3000/auth/login" method="post">
 
-        <h1 style="text-align: center;" >Please sign in</h1>
+        <h1 style="text-align: center;" >Register</h1>
         <br>
         <p style="text-align: center;">
         <label for="inputEmail">Email address&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
         <input type="email" id="inputEmail" placeholder="Email address" name="email" required autofocus>
 
         <br>
-
+        <label for="inputName">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Full Name&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
+        <input type="text" id="inputName"  placeholder="Full Name" name="name" required autofocus>
+        
+        <br>
+        
         <label for="inputPassword">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Password&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
         <input type="password" id="inputPassword" placeholder="Password" name="password" required>
         <br>
         <br>
-        <button type="button" class="btn btn-success" type="submit">Sign in</button>
+        <button type="button" class="btn btn-success" type="submit">Register</button>
         <span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
-        <a href="/auth/register" class="btn btn-warning" >Don't have an account</a>
+        <a href="/auth/login" class="btn btn-warning" >Already have an account?</a>
         
         <br>
     </p>
