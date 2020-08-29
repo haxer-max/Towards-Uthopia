@@ -2,10 +2,10 @@ const express = require("express");
 const router = express.Router();
 const mongoose = require("mongoose");
 
-const User = require("../models/users");
+const Blog = require("../../models/blogs");
 
 router.get("/a", (req, res) => {
-    User.find({})
+    Blog.find({})
         .select('_id title content')
         .exec()
         .then((blog) => {
@@ -14,31 +14,16 @@ router.get("/a", (req, res) => {
 });
 
 router.get("/:ID", (req, res) => {
-    User.findById(req.params.ID)
+    Blog.findById(req.params.ID)
         .exec()
         .then((blog) => {
-
             res.send(blog);
-        
-        });
-});
-
-router.delete("/:ID/delete", (req, res) => {
-    User.findByIdAndRemove(req.params.ID)
-        .exec()
-        .then((result) => {
-            res.send(result);
-            console.log(result);
-        })
-        .catch((result) => {
-            res.send(result);
-            console.log(result);
         });
 });
 
 
 router.post("/new_blog", (req, res) => {
-    const blog = new User({
+    const blog = new Blog({
         _id: new mongoose.Types.ObjectId(),
         title: req.body.title,
         content: req.body.content,
@@ -54,7 +39,7 @@ router.post("/new_blog", (req, res) => {
 });
 
 router.patch("/:ID/edit", (req, res) => {
-    User.findById(req.params.ID)
+    Blog.findById(req.params.ID)
         .exec()
         .then((blog) => {
             blog.title= req.body.title;
@@ -70,6 +55,18 @@ router.patch("/:ID/edit", (req, res) => {
 });
 
 
+router.delete("/:ID/delete_blog", (req, res) => {
+    Blog.findByIdAndRemove(req.params.ID)
+        .exec()
+        .then((result) => {
+            res.send(result);
+            console.log(result);
+        })
+        .catch((result) => {
+            res.send(result);
+            console.log(result);
+        });
+});
 
 router.get("/", function (req, res, next) {
     res.render("index", { title: "Express" });

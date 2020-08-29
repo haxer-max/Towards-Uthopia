@@ -7,8 +7,6 @@ const logger = require("morgan");
 const mongoose = require("mongoose");
 const cors = require('cors');
 
-const { google } = require('googleapis');
-const OAuth2Data = require('./google_key.json')
 
 //connecting to db
 mongoose
@@ -24,10 +22,10 @@ mongoose
 //
 
 /*importing routes */
-const indexRouter = require("./api/routes/index");
-const usersRouter = require("./api/routes/users");
-const blogsRouter = require("./api/routes/blogs");
-const profileRouter = require("./api/routes/profile");
+const indexRouter = require("./api/routes/other/index");
+const usersRouter = require("./api/routes/other/users");
+const blogsRouter = require("./api/routes/other/blogs");
+const profileRouter = require("./api/routes/other/profile");
 
 //
 
@@ -60,7 +58,7 @@ app.use(passport.initialize());
 //
 
 
-app.get('/auth/google',
+app.get('/auth/login/google',
   passport.authenticate('google', {session: false, scope: ['profile', 'email'] }),
   /*(req,res)=>{
       console.log("1")
@@ -70,15 +68,16 @@ app.get('/auth/google',
 
 app.get('/auth/google/callback', 
   passport.authenticate('google', { session: false, failureRedirect: '/login' }),
-  function(req, res) {
+  (req, res)=>{
     // Successful authentication, redirect home.
     console.log("2")
     res.redirect('/protecg');
-  });
+  }
+);
 
 
 /*using routes */
-app.use("/", indexRouter);
+app.use("/a", indexRouter);
 app.use("/users", usersRouter);
 app.use("/blogs", blogsRouter);
 app.use("/profile", profileRouter);

@@ -1,4 +1,4 @@
-const User = require('../models/users')
+const User = require("../models/users");
 
 //
 const passportJwt = require("passport-jwt");
@@ -13,10 +13,7 @@ const options = {
 //
 const GoogleStrategy = require("passport-google-oauth20").Strategy;
 
-
-
 module.exports = (passport) => {
-
     //
     passport.use(
         new JwtStrategy(options, async (payload, next) => {
@@ -42,7 +39,7 @@ module.exports = (passport) => {
                     console.log(profile);
                     user = await User.findOne({ googleId: profile.id }).exec();
                     if (user) {
-                        //console.log("4" + user);
+                        console.log(user);
                         return cb(null, user);
                     }
                     //console.log("5");
@@ -62,7 +59,34 @@ module.exports = (passport) => {
         )
     );
 
-
-
-
+    /*  
+  { 
+    id: '114699178440820194733',
+    displayName: 'Incredible Grim',
+    name: { 
+        familyName: 'Grim', 
+        givenName: 'Incredible' 
+    },
+    emails: [ { value: 'atharvashrawge@gmail.com', verified: true } ],
+    
+    photos:[ 
+        { value:
+          'https://lh3.googleusercontent.com/a-/AOh14GiH87_JIscVCjKxlHYkzC6Ya8GvQfffh6YqEFEIxA' } 
+    ],
+    
+    provider: 'google',
+    
+    _raw:
+     '{\n  "sub": "114699178440820194733",\n  "name": "Incredible Grim",\n  "given_name": "Incredible",\n  "family_name": "Grim",\n  "picture": "https://lh3.googleusercontent.com/a-/AOh14GiH87_JIscVCjKxlHYkzC6Ya8GvQfffh6YqEFEIxA",\n  "email": "atharvashrawge@gmail.com",\n  "email_verified": true,\n  "locale": "en-GB"\n}',
+    _json:
+     { sub: '114699178440820194733',
+       name: 'Incredible Grim',
+       given_name: 'Incredible',
+       family_name: 'Grim',
+       picture:
+        'https://lh3.googleusercontent.com/a-/AOh14GiH87_JIscVCjKxlHYkzC6Ya8GvQfffh6YqEFEIxA',
+       email: 'atharvashrawge@gmail.com',
+       email_verified: true,
+       locale: 'en-GB' } }
+*/
 };

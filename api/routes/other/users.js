@@ -5,7 +5,11 @@ const bcrypt = require("bcrypt");
 const jwt =require('jsonwebtoken')
 const saltRounds = 10;
 
-const User = require("../models/users");
+const User = require("../../models/users");
+
+router.get("/aa", (req, res) => {
+    res.redirect('../a')
+});
 
 router.get("/a", (req, res) => {
     User.find({})
