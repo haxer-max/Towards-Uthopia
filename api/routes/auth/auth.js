@@ -8,37 +8,14 @@ const saltRounds = 10;
 const User = require("../../models/users");
 
 const loginroute=require('./login');
+const registerroute=require('./register');
+const googleroute=require('./oauth/google');
 
 router.use("/login", loginroute)
+router.use("/register", registerroute)
 
-router.post("/register", (req, res) => {
-    User.findOne({ email: req.body.email })
-        .exec()
-        .then((existinguser) => {
-            console.log(existinguser);
-            if (existinguser) {
-                res.status(409).send({"error":"user exist"});
-                //throw(JSON.parse('{"error":"user exist"}'));
-            } else {
-                return bcrypt.hash(req.body.password, saltRounds);
-            }
-        })
-        .then((hash) => {
-            const user = new User({
-                _id: new mongoose.Types.ObjectId(),
-                email: req.body.email,
-                password: hash,
-            });
-            return user.save();
-        })
-        .then((result) => {
-            res.send(result);
-        })
-        .catch((err) => {
-            console.log("BRUHBRUH");
-            res.status(500).send(err);
-        });
-});
+router.use("/google", googleroute)
+
 
 
 module.exports = router;

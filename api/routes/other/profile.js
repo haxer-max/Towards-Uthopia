@@ -17,9 +17,7 @@ router.get("/:ID", (req, res) => {
     User.findById(req.params.ID)
         .exec()
         .then((blog) => {
-
             res.send(blog);
-        
         });
 });
 

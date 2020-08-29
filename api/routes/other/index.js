@@ -1,8 +1,13 @@
 const express = require('express');
 const router = express.Router();
 const passport = require('passport')
+
 const User = require("../../models/users");
 const Blog = require("../../models/blogs");
+
+const usersRouter = require("./users");
+const blogsRouter = require("./blogs");
+const profileRouter = require("./profile");
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
@@ -14,6 +19,22 @@ router.get('/', function(req, res, next) {
     });
     
 });
+router.use("/users", usersRouter);
+router.use("/blogs", blogsRouter);
+router.use("/profile", profileRouter);
+router.use("/auth",require('../auth/auth'))
+
+
+
+
+
+
+
+
+
+
+
+
 
 router.get('/protec', 
     passport.authenticate('jwt',{session: false}),

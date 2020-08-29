@@ -4,15 +4,16 @@ const mongoose = require("mongoose");
 const bcrypt = require("bcrypt");
 const jwt =require('jsonwebtoken')
 const saltRounds = 10;
+const passport = require("passport");
 
 const User = require("../../../models/users");
 
-app.get('/auth/login/google',
+router.get('/',
   passport.authenticate('google', {session: false, scope: ['profile', 'email'] }),
   
-  );
+);
 
-app.get('/auth/google/callback', 
+router.get('/callback', 
   passport.authenticate('google', { session: false, failureRedirect: '/login' }),
   (req, res)=>{
     // Successful authentication, redirect home.

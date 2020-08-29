@@ -13,14 +13,10 @@ router.get("/a", (req, res) => {
         });
 });
 
-router.get("/:ID", (req, res) => {
-    Blog.findById(req.params.ID)
-        .exec()
-        .then((blog) => {
-            res.send(blog);
-        });
-});
 
+router.get("/new_blog",(req,res)=>{
+    res.render("newblog");
+})
 
 router.post("/new_blog", (req, res) => {
     const blog = new Blog({
@@ -28,7 +24,6 @@ router.post("/new_blog", (req, res) => {
         title: req.body.title,
         content: req.body.content,
     });
-
     blog.save()
         .then((result) => {
             console.log(result);
@@ -37,6 +32,15 @@ router.post("/new_blog", (req, res) => {
             console.log(result);
         });
 });
+
+router.get("/:ID", (req, res) => {
+    Blog.findById(req.params.ID)
+        .exec()
+        .then((blog) => {
+            res.render('blog',blog);
+        });
+});
+
 
 router.patch("/:ID/edit", (req, res) => {
     Blog.findById(req.params.ID)
@@ -66,10 +70,6 @@ router.delete("/:ID/delete_blog", (req, res) => {
             res.send(result);
             console.log(result);
         });
-});
-
-router.get("/", function (req, res, next) {
-    res.render("index", { title: "Express" });
 });
 
 module.exports = router;

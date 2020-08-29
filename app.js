@@ -1,12 +1,14 @@
 //importing modules
 const createError = require("http-errors");
 const express = require("express");
+const app = express();
 const path = require("path");
 const cookieParser = require("cookie-parser");
 const logger = require("morgan");
 const mongoose = require("mongoose");
 const cors = require('cors');
-
+const passport = require("passport");
+const indexRouter = require("./api/routes/other/index");
 
 //connecting to db
 mongoose
@@ -18,18 +20,6 @@ mongoose
     .catch((err) => {
         console.log(`DB Connection Error: ${err.message}`);
     });
-
-//
-
-/*importing routes */
-const indexRouter = require("./api/routes/other/index");
-const usersRouter = require("./api/routes/other/users");
-const blogsRouter = require("./api/routes/other/blogs");
-const profileRouter = require("./api/routes/other/profile");
-
-//
-
-const app = express();
 
 // view engine setup
 app.set("views", path.join(__dirname, "frontend/views"));
@@ -43,46 +33,14 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "frontend/public")));
 app.use(cors({
     origin: 'http://localhost:4000'
-}
-))
-//
+}))
 
-const User = require("./api/models/users");
-const passport = require("passport");
-
+//configuring passport
 require('./api/config/passport_strategies')(passport);
-
-
-
 app.use(passport.initialize());
-//
-
-
-app.get('/auth/login/google',
-  passport.authenticate('google', {session: false, scope: ['profile', 'email'] }),
-  /*(req,res)=>{
-      console.log("1")
-      res.send(req.user);
-  }*/
-  );
-
-app.get('/auth/google/callback', 
-  passport.authenticate('google', { session: false, failureRedirect: '/login' }),
-  (req, res)=>{
-    // Successful authentication, redirect home.
-    console.log("2")
-    res.redirect('/protecg');
-  }
-);
-
 
 /*using routes */
-app.use("/a", indexRouter);
-app.use("/users", usersRouter);
-app.use("/blogs", blogsRouter);
-app.use("/profile", profileRouter);
-
-//
+app.use("/", indexRouter);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {

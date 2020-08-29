@@ -1,22 +1,17 @@
 const express = require("express");
 const router = express.Router();
+
 const mongoose = require("mongoose");
 const bcrypt = require("bcrypt");
 const jwt =require('jsonwebtoken');
 
 const User = require("../../models/users");
 
-
-
-router.get("/login",(req,res)=>{
-
+router.get("/",(req,res)=>{
     res.render('login');
-
-
-
 })
 
-router.post("/login", (req, res) => {
+router.post("/", (req, res) => {
     User.findOne({ email: req.body.email })
         .exec()
         .then((user) => {
@@ -32,8 +27,11 @@ router.post("/login", (req, res) => {
                         if (match) {
                             const payload={id: user._id}
                             const token= jwt.sign(payload,process.env.SECRET)
+                            console.log("hey")
+                            console.log(token);
+                            res.cookie('myGreatBlog_auth_token_bearee', token);
                             //res.setHeader('Authorization', 'Bearer '+ token);
-                            res.redirect('http://localhost:3000/protec');
+                            res.redirect('http://localhost:3000/get');
                         } 
                         else {
                             res.send("nah");
