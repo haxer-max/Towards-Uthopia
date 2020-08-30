@@ -2,6 +2,8 @@ const express = require("express");
 const router = express.Router();
 const mongoose = require("mongoose");
 
+const commonauth= require('../../config/auth_middleware').commonauth
+
 const Blog = require("../../models/blogs");
 
 router.get("/a", (req, res) => {
@@ -18,15 +20,17 @@ router.get("/new_blog",(req,res)=>{
     res.render("newblog");
 })
 
-router.post("/new_blog", (req, res) => {
+router.post("/new_blog", commonauth, (req, res) => {
     const blog = new Blog({
         _id: new mongoose.Types.ObjectId(),
         title: req.body.title,
         content: req.body.content,
+        author: req.userid 
     });
     blog.save()
         .then((result) => {
             console.log(result);
+            res.redirect('/blogs/'+result._id)
         })
         .catch((result) => {
             console.log(result);
@@ -59,12 +63,13 @@ router.patch("/:ID/edit", (req, res) => {
 });
 
 
-router.delete("/:ID/delete_blog", (req, res) => {
+router.get("/:ID/delete_blog", (req, res) => {
     Blog.findByIdAndRemove(req.params.ID)
         .exec()
         .then((result) => {
-            res.send(result);
+            //res.send(result);
             console.log(result);
+            res.redirect('/')
         })
         .catch((result) => {
             res.send(result);

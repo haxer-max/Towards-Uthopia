@@ -1,6 +1,6 @@
 <%- include('../partial/header') %>
 <div style="width: 80%; margin: auto; margin-top: 30px; background-color: white; border-radius: 4%; padding: 3%; max-width: 700px;" >
-    <form action="http://localhost:3000/auth/login" method="post">
+    <form action="/auth/register" method="post">
 
         <h1 style="text-align: center;" >Register</h1>
         <br>
@@ -18,7 +18,7 @@
         <input type="password" id="inputPassword" placeholder="Password" name="password" required>
         <br>
         <br>
-        <button type="button" class="btn btn-success" type="submit">Register</button>
+        <button class="btn btn-success" type="submit">Register</button>
         <span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
         <a href="/auth/login" class="btn btn-warning" >Already have an account?</a>
         

@@ -17,8 +17,10 @@ router.get('/callback',
   passport.authenticate('google', { session: false, failureRedirect: '/login' }),
   (req, res)=>{
     // Successful authentication, redirect home.
-    console.log("2")
-    res.redirect('/protecg');
+    console.log("2"+ req.user)
+
+
+    res.redirect('/p');
   }
 );
 module.exports = router;

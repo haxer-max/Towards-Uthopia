@@ -15,7 +15,7 @@ const blogSchema = mongoose.Schema({
         max:5000,
     },
 
-    user: {
+    author: {
         type: mongoose.Schema.ObjectId,
         ref: "users",
     },

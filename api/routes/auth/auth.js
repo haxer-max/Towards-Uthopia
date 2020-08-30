@@ -7,12 +7,18 @@ const saltRounds = 10;
 
 const User = require("../../models/users");
 
-const loginroute=require('./login');
 const registerroute=require('./register');
+
+const loginroute=require('./login');
+const logoutroute=require('./logout');
+
 const googleroute=require('./oauth/google');
 
-router.use("/login", loginroute)
+
 router.use("/register", registerroute)
+
+router.use("/login", loginroute)
+router.use("/logout", logoutroute)
 
 router.use("/google", googleroute)
 

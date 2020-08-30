@@ -26,12 +26,14 @@ router.post("/", (req, res) => {
 
                         if (match) {
                             const payload={id: user._id}
-                            const token= jwt.sign(payload,process.env.SECRET)
-                            console.log("hey")
-                            console.log(token);
-                            res.cookie('myGreatBlog_auth_token_bearee', token);
-                            //res.setHeader('Authorization', 'Bearer '+ token);
-                            res.redirect('http://localhost:3000/get');
+                            const token= jwt.sign(payload,process.env.SECRET,(err,token)=>{
+                                console.log("hey")
+                                console.log(token);
+                                res.cookie('myGreatBlog_auth_token_bearee', token);
+                                //res.setHeader('Authorization', 'Bearer '+ token);
+                                res.redirect('http://localhost:3000/get');
+                            })
+
                         } 
                         else {
                             res.send("nah");
