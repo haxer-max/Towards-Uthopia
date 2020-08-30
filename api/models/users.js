@@ -23,12 +23,11 @@ const userSchema = mongoose.Schema({
         //require: true,
     },
 
-    /*
+
     name: {
         type: String,
-        require: true,
-    },*/
-     
+        //require: true,
+    },     
 
 });
 

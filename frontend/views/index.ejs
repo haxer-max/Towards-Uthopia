@@ -20,7 +20,8 @@
         onclick="location.href='http://localhost:3000/blogs/<%= blog._id %>';">
         <div class="row no-gutters">
             <div class="col-md-4">
-                <img src="https://i.insider.com/5e32f2a324306a19834af322?width=2400" class="card-img" alt="...">
+                <img src="<%= blog.blogimage %> " class="card-img" alt="..." style="object-fit: cover; height: 150px;">
+                <!--https://i.insider.com/5e32f2a324306a19834af322?width=2400-->
             </div>
             <div class="col-md-8">
                 <div class="card-body">

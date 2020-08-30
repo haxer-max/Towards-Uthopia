@@ -8,6 +8,8 @@ const logger = require("morgan");
 const mongoose = require("mongoose");
 const cors = require('cors');
 const passport = require("passport");
+
+
 const indexRouter = require("./api/routes/other/index");
 
 //connecting to db
@@ -31,6 +33,8 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "frontend/public")));
+app.use('/uploads', express.static(path.join(__dirname, "uploads")));
+
 app.use(cors({
     origin: 'http://localhost:4000'
 }))

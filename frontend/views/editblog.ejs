@@ -7,17 +7,16 @@
         <h1 style="text-align: center;">Create Blog</h1>
         <br>
         <input type="text" id="title" placeholder="Title" name="title" required autofocus
-            style="width: 100%; height: 50px; font-size: 30px; text-align: center;">
+            style="width: 100%; height: 50px; font-size: 30px; text-align: center;" value="<%= title %> ">
 
         <br><br>
 
-        <textarea id="content" name="content" rows="50" cols="1000" style="max-width: 100%;" placeholder="I am very happy to tell that ..............."></textarea>
+        <textarea id="content" name="content" rows="50" cols="1000" style="max-width: 100%;" ><%= content %></textarea>
         
         <br>
         <br>
-        <input type="file" name="blogimage" id="">
         
-        <button  class="btn btn-success" type="submit">Create</button>
+        <button  class="btn btn-success" type="submit">Edit</button>
         
     </form>
 <br>

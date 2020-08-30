@@ -20,6 +20,9 @@ const blogSchema = mongoose.Schema({
         ref: "users",
     },
 
+    blogimage:{
+        type: String
+    }
 
 });
 
