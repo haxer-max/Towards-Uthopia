@@ -47,8 +47,8 @@ router.get("/a", (req, res) => {
 });
 
 
-router.get("/new_blog",(req,res)=>{
-    res.render("newblog");
+router.get("/new_blog",commonauth,(req,res)=>{
+    res.render("newblog",{  UserIsAuth:req.UserIsAuth, name: req.theUserName });
 })
 
 router.post("/new_blog", commonauth, upload.single('blogimage'), (req, res) => {
@@ -90,6 +90,8 @@ router.get("/:ID", (req, res) => {
     Blog.findById(req.params.ID)
         .exec()
         .then((blog) => {
+            blog.UserIsAuth=req.UserIsAuth;
+            blog.name= req.theUserName;
             res.render('blog',blog);
         });
 });

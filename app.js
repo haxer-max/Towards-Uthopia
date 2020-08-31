@@ -8,7 +8,7 @@ const logger = require("morgan");
 const mongoose = require("mongoose");
 const cors = require('cors');
 const passport = require("passport");
-
+const jwt =require('jsonwebtoken')
 
 const indexRouter = require("./api/routes/other/index");
 
@@ -38,6 +38,20 @@ app.use('/uploads', express.static(path.join(__dirname, "uploads")));
 app.use(cors({
     origin: 'http://localhost:4000'
 }))
+
+app.use((req,res,next)=>{
+    token=req.cookies.myGreatBlog_auth_token_bearee
+    jwt.verify(token, process.env.SECRET,(err,decoded)=>{
+        if(!err) 
+        {
+            req.userid=decoded.id
+            req.UserIsAuth=true
+            req.theUserName=decoded.name
+            
+        }
+        next()
+    })
+});
 
 //configuring passport
 require('./api/config/passport_strategies')(passport);

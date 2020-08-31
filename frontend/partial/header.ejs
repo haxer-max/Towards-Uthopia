@@ -20,7 +20,7 @@
         
     <nav class="navbar navbar-expand-md fixed-top navbar-dark bg-dark">
         
-        <a class="navbar-brand" href="#">Navbar</a>
+        <a class="navbar-brand" href="/">Best website</a>
         <button
             class="navbar-toggler"
             type="button"
@@ -34,14 +34,14 @@
         </button>
 
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav mr-auto">
-                <li class="nav-item ">
+           <ul class="navbar-nav mr-auto">
+        <!--        <li class="nav-item ">
                     <a class="nav-link" href="/">
                          Home
                     </a>
-                </li>
+                -->    </li>
             </ul>
-
+        
             <div class="d-flex flex-row-reverse bd-highlight">
                 <ul class="navbar-nav mr-auto">
                     
@@ -56,6 +56,7 @@
                     </li>
 
                     <!-- user-->
+<% if(UserIsAuth){ %> 
                     <li class="nav-item dropdown">
                         <a
                             class="nav-link dropdown-toggle"
@@ -65,8 +66,8 @@
                             data-toggle="dropdown"
                             aria-haspopup="true"
                             aria-expanded="false"
-                        >
-                            Dropdown
+                        >&nbsp;&nbsp;
+                        <%= name %>
                         </a>
                         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                             <a class="dropdown-item" href="#">Profile</a>
@@ -77,15 +78,17 @@
                             <!--div class="dropdown-divider"></div>
                             <a class="dropdown-item" href="#">Something else here</a-->
                         </div>
-                    </li>
-                    <!--li class="nav-item">
-                        <a class="nav-link" href="{% url 'songs:addalbum' %}">
+                    </li>&nbsp;&nbsp;&nbsp;&nbsp;
+                <% }else{ %> 
+                    <li class="nav-item">
+                        <a class="nav-link" href="/auth/login">
                             <svg class="bi bi-power" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
                                 <path fill-rule="evenodd" d="M5.578 4.437a5 5 0 104.922.044l.5-.866a6 6 0 11-5.908-.053l.486.875z" clip-rule="evenodd"/>
                                 <path fill-rule="evenodd" d="M7.5 8V1h1v7h-1z" clip-rule="evenodd"/>
-                              </svg> Logout                            
+                              </svg> Login                           
                         </a>
-                    </li-->
+                    </li>
+               <% } %>
                 </ul>
             </div>
         

@@ -8,7 +8,7 @@ const jwt =require('jsonwebtoken');
 const User = require("../../models/users");
 
 router.get("/",(req,res)=>{
-    res.render('login');
+    res.render('login',{  UserIsAuth:req.UserIsAuth, name: req.theUserName });
 })
 
 router.post("/", (req, res) => {
@@ -25,13 +25,12 @@ router.post("/", (req, res) => {
                         console.log(user);
 
                         if (match) {
-                            const payload={id: user._id}
+                            const payload={id: user._id, name:user.name}
                             const token= jwt.sign(payload,process.env.SECRET,(err,token)=>{
-                                console.log("hey")
                                 console.log(token);
                                 res.cookie('myGreatBlog_auth_token_bearee', token);
                                 //res.setHeader('Authorization', 'Bearer '+ token);
-                                res.redirect('http://localhost:3000/get');
+                                res.redirect('/');
                             })
 
                         } 

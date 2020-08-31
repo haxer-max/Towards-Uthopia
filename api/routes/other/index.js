@@ -15,7 +15,7 @@ router.get('/', function(req, res, next) {
     Blog.find({})
     .exec()
     .then((blogs) => {
-        res.render('index', { blogs : blogs });
+        res.render('index', { blogs : blogs, UserIsAuth:req.UserIsAuth, name: req.theUserName });
     });
 });
 

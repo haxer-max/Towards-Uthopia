@@ -8,7 +8,7 @@ const saltRounds = 10;
 const User = require("../../models/users");
 
 router.get("/",(req,res)=>{
-    res.render('register');
+    res.render('register',{  UserIsAuth:req.UserIsAuth, name: req.theUserName });
 })
 
 router.post("/", (req, res) => {
@@ -27,6 +27,7 @@ router.post("/", (req, res) => {
             const user = new User({
                 _id: new mongoose.Types.ObjectId(),
                 email: req.body.email,
+                name: req.body.name,
                 password: hash,
             });
             return user.save();
