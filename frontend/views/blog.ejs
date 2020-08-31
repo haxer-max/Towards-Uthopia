@@ -4,7 +4,7 @@
 
     <h1 style="text-align: center;"><%= title %> </h1>
 
-<p class="card-text" style="text-align: right;"><a href="/users/a">~lkas</a></p>
+<p class="card-text" style="text-align: right;"><a href="/profile/<%= author._id %>"> ~<%= author.name %></a></p>
 
 <br>
 <img src="<%= blogimage %> " alt=""  style="height:500px; max-width: 90%; display: block; margin-left: auto; margin-right: auto;" >
@@ -15,7 +15,7 @@
 
 <div style="width: 80%; margin: auto; margin-top: 0px;  padding: 3%; padding-top: 5px;" >
 
-    <a class="btn btn-primary" href="/blogs/<%= _id %>/delete_blog">Edit</a>
+    <a class="btn btn-primary" href="/blogs/<%= _id %>/edit">Edit</a>
     <span style="margin-right: 10px;"></span>
     <a class="btn btn-danger" href="/blogs/<%= _id %>/delete_blog">Delete</a>
 

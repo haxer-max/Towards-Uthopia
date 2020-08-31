@@ -1,0 +1,21 @@
+<%- include('../partial/header') %>
+<br>
+<div style="width: 80%; margin: auto; margin-top: 50px; background-color: white; border-radius: 4%; padding: 3%;" >
+
+    <h1 style="text-align: center;"><%= name %> </h1>
+
+
+<br>
+
+<h3><%= email %></p>
+
+</div>
+
+<div style="width: 80%; margin: auto; margin-top: 0px;  padding: 3%; padding-top: 5px;" >
+
+    <a class="btn btn-primary" href="/blogs/<%= _id %>/edit">Edit profile</a>
+    <span style="margin-right: 10px;"></span>
+    <a class="btn btn-danger" href="/blogs/<%= _id %>/delete_blog">Delete account</a>
+
+</div>
+<%- include('../partial/footer') %>

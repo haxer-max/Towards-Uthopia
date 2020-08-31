@@ -8,7 +8,7 @@ const saltRounds = 10;
 const User = require("../../models/users");
 
 router.get("/",(req,res)=>{
-    res.render('register',{  UserIsAuth:req.UserIsAuth, name: req.theUserName });
+    res.render('register',{  UserIsAuth:req.UserIsAuth, name: req.theUserName , userid:req.userid});
 })
 
 router.post("/", (req, res) => {

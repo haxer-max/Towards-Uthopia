@@ -8,7 +8,7 @@ const jwt =require('jsonwebtoken');
 const User = require("../../models/users");
 
 router.get("/",(req,res)=>{
-    res.render('login',{  UserIsAuth:req.UserIsAuth, name: req.theUserName });
+    res.render('login',{  UserIsAuth:req.UserIsAuth, name: req.theUserName, userid:req.userid});
 })
 
 router.post("/", (req, res) => {

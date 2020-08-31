@@ -16,8 +16,12 @@ router.get("/a", (req, res) => {
 router.get("/:ID", (req, res) => {
     User.findById(req.params.ID)
         .exec()
-        .then((blog) => {
-            res.send(blog);
+        .then((user) => {
+            user.UserIsAuth=req.UserIsAuth;
+            user.name= req.theUserName;
+            user.userid=req.userid
+            //res.send(user);
+            res.render('profile',user);
         });
 });
 
@@ -35,21 +39,7 @@ router.delete("/:ID/delete", (req, res) => {
 });
 
 
-router.post("/new_blog", (req, res) => {
-    const blog = new User({
-        _id: new mongoose.Types.ObjectId(),
-        title: req.body.title,
-        content: req.body.content,
-    });
 
-    blog.save()
-        .then((result) => {
-            console.log(result);
-        })
-        .catch((result) => {
-            console.log(result);
-        });
-});
 
 router.patch("/:ID/edit", (req, res) => {
     User.findById(req.params.ID)

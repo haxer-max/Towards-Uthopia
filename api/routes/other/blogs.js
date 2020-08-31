@@ -48,7 +48,7 @@ router.get("/a", (req, res) => {
 
 
 router.get("/new_blog",commonauth,(req,res)=>{
-    res.render("newblog",{  UserIsAuth:req.UserIsAuth, name: req.theUserName });
+    res.render("newblog",{  UserIsAuth:req.UserIsAuth, name: req.theUserName, userid:req.userid });
 })
 
 router.post("/new_blog", commonauth, upload.single('blogimage'), (req, res) => {
@@ -88,14 +88,32 @@ router.post("/new_blog", commonauth, upload.single('blogimage'), (req, res) => {
 
 router.get("/:ID", (req, res) => {
     Blog.findById(req.params.ID)
+        .populate('author')
         .exec()
         .then((blog) => {
+            console.log(blog)
             blog.UserIsAuth=req.UserIsAuth;
             blog.name= req.theUserName;
+            blog.userid=req.userid
             res.render('blog',blog);
         });
 });
 
+router.get("/:ID/edit", (req, res) => {
+    Blog.findById(req.params.ID)
+        .populate('author')
+        .exec()
+        .then((blog) => {
+            blog.UserIsAuth=req.UserIsAuth;
+            blog.name= req.theUserName; 
+            blog.userid=req.userid;           
+            res.render('editblog',blog);
+        })
+        .catch((result) => {
+            res.send(result)
+            console.log(result);
+        });
+});
 
 router.patch("/:ID/edit", (req, res) => {
     Blog.findById(req.params.ID)
