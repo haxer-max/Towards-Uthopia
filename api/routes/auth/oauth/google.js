@@ -18,9 +18,12 @@ router.get('/callback',
   (req, res)=>{
     // Successful authentication, redirect home.
     console.log("2"+ req.user)
-
-
-    res.redirect('/p');
+    const payload={id: req.user._id, name: req.user.name}
+    const token= jwt.sign(payload,process.env.SECRET,(err,token)=>{
+        console.log(token);
+        res.cookie('myGreatBlog_auth_token_bearee', token);
+        res.redirect('/');
+    })
   }
 );
 module.exports = router;

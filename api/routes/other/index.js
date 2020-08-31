@@ -26,7 +26,7 @@ const path = './images/imagee.png'
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
-    saveImage(url,path)
+    //saveImage(url,path)
     Blog.find({})
     .populate('author')
     .exec()

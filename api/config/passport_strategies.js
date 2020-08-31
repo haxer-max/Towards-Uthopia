@@ -1,30 +1,22 @@
 const User = require("../models/users");
 
-//
+/*
 const passportJwt = require("passport-jwt");
 const JwtStrategy = passportJwt.Strategy;
 const ExtractJwt = passportJwt.ExtractJwt;
-
 const options = {
     jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
     secretOrKey: process.env.SECRET,
 };
+*/
+const mongoose= require('mongoose');
+
 
 //
 const GoogleStrategy = require("passport-google-oauth20").Strategy;
 
 module.exports = (passport) => {
     //
-    passport.use(
-        new JwtStrategy(options, async (payload, next) => {
-            User.findById(payload.id)
-                .exec()
-                .then((user) => {
-                    //console.log(req.isAuthenticated())
-                    next(null, user);
-                });
-        })
-    );
 
     //
     passport.use(
@@ -46,6 +38,8 @@ module.exports = (passport) => {
                     user = new User({
                         _id: new mongoose.Types.ObjectId(),
                         googleId: profile.id,
+                        email:profile._json.email,
+                        name: profile._json.name,
                     });
                     //console.log("6" + user);
                     await user.save();
@@ -59,34 +53,5 @@ module.exports = (passport) => {
         )
     );
 
-    /*  
-  { 
-    id: '114699178440820194733',
-    displayName: 'Incredible Grim',
-    name: { 
-        familyName: 'Grim', 
-        givenName: 'Incredible' 
-    },
-    emails: [ { value: 'atharvashrawge@gmail.com', verified: true } ],
-    
-    photos:[ 
-        { value:
-          'https://lh3.googleusercontent.com/a-/AOh14GiH87_JIscVCjKxlHYkzC6Ya8GvQfffh6YqEFEIxA' } 
-    ],
-    
-    provider: 'google',
-    
-    _raw:
-     '{\n  "sub": "114699178440820194733",\n  "name": "Incredible Grim",\n  "given_name": "Incredible",\n  "family_name": "Grim",\n  "picture": "https://lh3.googleusercontent.com/a-/AOh14GiH87_JIscVCjKxlHYkzC6Ya8GvQfffh6YqEFEIxA",\n  "email": "atharvashrawge@gmail.com",\n  "email_verified": true,\n  "locale": "en-GB"\n}',
-    _json:
-     { sub: '114699178440820194733',
-       name: 'Incredible Grim',
-       given_name: 'Incredible',
-       family_name: 'Grim',
-       picture:
-        'https://lh3.googleusercontent.com/a-/AOh14GiH87_JIscVCjKxlHYkzC6Ya8GvQfffh6YqEFEIxA',
-       email: 'atharvashrawge@gmail.com',
-       email_verified: true,
-       locale: 'en-GB' } }
-*/
+
 };
