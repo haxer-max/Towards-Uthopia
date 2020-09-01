@@ -120,7 +120,7 @@ router.get("/:ID/delete_blog", async(req, res) => {
         const blog=await Blog.findById(req.params.ID).exec()
         if(blog.author==req.userid) 
         {
-            const b =await blog.remove()
+            await blog.remove()
         }
         res.redirect('../../')
     } catch(err){

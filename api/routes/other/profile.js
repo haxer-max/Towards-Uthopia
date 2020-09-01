@@ -1,12 +1,15 @@
 const express = require("express");
 const router = express.Router();
 const mongoose = require("mongoose");
-
+const bcrypt =require("bcrypt")
 const authmiddle=require('../../config/auth_middleware')
 const commonauth= authmiddle.commonauth
 const userspecificauth= authmiddle.userspecificauth
 
 const User = require("../../models/users");
+const Blog = require("../../models/blogs");
+
+const saltRounds=10
 
 router.get("/a", (req, res) => {
     User.find({})
@@ -29,36 +32,38 @@ router.get("/:ID",userspecificauth, (req, res) => {
         });
 });
 
-router.delete("/:ID/delete",userspecificauth, (req, res) => {
-    User.findByIdAndRemove(req.params.ID)
-        .exec()
-        .then((result) => {
-            res.send(result);
-            console.log(result);
-        })
-        .catch((result) => {
-            res.send(result);
-            console.log(result);
-        });
+router.get("/:ID/delete",userspecificauth, async (req, res) => {
+    try{
+        await Promise.all([
+            User.findByIdAndRemove(req.params.ID).exec(),
+            Blog.deleteMany({ author:req.params.ID }).exec()
+        ])
+        res.redirect('../../auth/logout')
+    }catch(err){
+        res.send(err);
+    }
 });
 
 
+router.get("/:ID/edit",userspecificauth, async(req, res) => {
+    res.render('editpassword',{id:req.params.ID, UserIsAuth:req.UserIsAuth, name: req.theUserName, userid:req.userid});
+});
 
 
-router.patch("/:ID/edit",userspecificauth, (req, res) => {
-    User.findById(req.params.ID)
-        .exec()
-        .then((blog) => {
-            blog.title= req.body.title;
-            blog.content=req.body.content;
-            return blog.save();
-        })
-        .then((result) => {
-            console.log(result);
-        })
-        .catch((result) => {
-            console.log(result);
-        });
+router.post("/:ID/edit",/*userspecificauth,*/ async(req, res) => {
+    try{
+        const user=await User.findById(req.params.ID).exec()
+        //.then((user)=>console.log(user))
+        hash =await bcrypt.hash(req.body.password, saltRounds);
+        user.password= hash;
+        //console.log(hash)
+        await user.save();
+        //console.log(a);
+        res.redirect('../../')
+    }
+    catch(err) {
+        res.send(err);
+    }
 });
 
 

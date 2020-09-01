@@ -33,7 +33,8 @@ router.post("/", (req, res) => {
             return user.save();
         })
         .then((result) => {
-            res.send(result);
+            res.redirect('login')
+            console.log(result);
         })
         .catch((err) => {
             console.log("BRUHBRUH");
