@@ -2,48 +2,25 @@ const express = require("express");
 const router = express.Router();
 const mongoose = require("mongoose");
 
-//multer
-const multer = require("multer");
-const storage = multer.diskStorage({
-    destination: (req, file, cb)=>{
-        cb(null, './uploads/');
-    },
-    filename: (req, file, cb)=>{
-        console.log(file)
-        cb(null, Date.now() + file.originalname);
-    }, 
-});
-const fileFilter=(req,file,cb)=>{
-    if(file.mimetype==='image/jpeg' || file.mimetype==='image/png'){
-        cb(null,true);
-    }
-    else{
-        cb(null,false);
-    }
-}
-
-const upload = multer({
-    storage: storage,
-    limits:{
-        fileSize: 1024*1024*10,
-    },
-    fileFilter:fileFilter,
-});
+const upload=require('../../config/multerconfig')();
 
 //custom files
 const commonauth= require('../../config/auth_middleware').commonauth
 
 const Blog = require("../../models/blogs");
 
-router.get("/a", (req, res) => {
-    
-    Blog.find({})
-        .select('_id title content')
-        .populate('author')
-        .exec()
-        .then((blog) => {
-            res.send(blog);
-        });
+//
+
+//
+router.get("/a", async(req, res) => {
+    try{
+        blog=await Blog.find({}).populate('author').exec()
+        res.send(blog);
+    }
+    catch(err)
+    {
+        res.send(err);
+    }
 });
 
 
@@ -51,7 +28,7 @@ router.get("/new_blog",commonauth,(req,res)=>{
     res.render("newblog",{  UserIsAuth:req.UserIsAuth, name: req.theUserName, userid:req.userid });
 })
 
-router.post("/new_blog", commonauth, upload.single('blogimage'), (req, res) => {
+router.post("/new_blog", commonauth, upload.single('blogimage'), async(req, res) => {
     console.log(req.file);
     console.log("HEY")
     const blog = new Blog({
@@ -64,14 +41,14 @@ router.post("/new_blog", commonauth, upload.single('blogimage'), (req, res) => {
 
     if(req.file) blog.blogimage='/uploads/'+req.file.filename;
 
-    blog.save()
-        .then((result) => {
-            console.log(result);
-            res.redirect('/blogs/'+result._id)
-        })
-        .catch((result) => {
-            console.log(result);
-        });
+    try{
+        result=await blog.save()
+        console.log(result);
+        res.redirect('/blogs/'+result._id)
+    }
+    catch(err) {
+        res.send(err);
+    }
 });
 
 /*
@@ -86,64 +63,69 @@ router.post("/new_blog", commonauth, upload.single('blogimage'), (req, res) => {
 */
 
 
-router.get("/:ID", (req, res) => {
-    Blog.findById(req.params.ID)
-        .populate('author')
-        .exec()
-        .then((blog) => {
-            console.log(blog)
-            blog.UserIsAuth=req.UserIsAuth;
-            blog.name= req.theUserName;
-            blog.userid=req.userid
-            res.render('blog',blog);
-        });
+router.get("/:ID", async(req, res) => {
+    try{
+        blog= await Blog.findById(req.params.ID).populate('author').exec()
+        
+        console.log(blog)
+        blog.UserIsAuth=req.UserIsAuth;
+        blog.name= req.theUserName;
+        blog.userid=req.userid
+        res.render('blog',blog);
+    }catch(err){
+        res.send(err);
+    }
 });
 
-router.get("/:ID/edit", (req, res) => {
-    Blog.findById(req.params.ID)
-        .populate('author')
-        .exec()
-        .then((blog) => {
-            blog.UserIsAuth=req.UserIsAuth;
+router.get("/:ID/edit", async(req, res) => {
+    try{
+        blog=await Blog.findById(req.params.ID).populate('author').exec()
+        if(blog.author===req.userid){
             blog.name= req.theUserName; 
             blog.userid=req.userid;           
             res.render('editblog',blog);
-        })
-        .catch((result) => {
-            res.send(result)
-            console.log(result);
-        });
+        }
+        else{
+            res.redirect('../../')
+        }
+    }catch(err) {
+        res.send(result)
+        console.log(result);
+    }
 });
 
-router.patch("/:ID/edit", (req, res) => {
-    Blog.findById(req.params.ID)
-        .exec()
-        .then((blog) => {
+router.patch("/:ID/edit", async(req, res) => {
+    try{
+        blog=await Blog.findById(req.params.ID).exec()
+        if(blog.author===req.userid){
+            
             blog.title= req.body.title;
             blog.content=req.body.content;
-            return blog.save();
-        })
-        .then((result) => {
-            console.log(result);
-        })
-        .catch((result) => {
-            console.log(result);
-        });
+            await blog.save();
+            res.redirect('/'+ req.params.ID)
+        }
+        else{
+            res.redirect('/')
+        }
+    }
+    catch(err){
+        res.send(err);
+    }
 });
 
 
-router.get("/:ID/delete_blog", (req, res) => {
-    Blog.findByIdAndRemove(req.params.ID)
-        .exec()
-        .then((result) => {
-            //res.send(result);
-            console.log(result);
-            res.redirect('/')
-        })
-        .catch((result) => {
-            res.send(result);
-            console.log(result);
-        });
+router.get("/:ID/delete_blog", async(req, res) => {
+    try{    
+        //await Blog.findByIdAndRemove(req.params.ID).exec()
+        const blog=await Blog.findById(req.params.ID).exec()
+        if(blog.author==req.userid) 
+        {
+            const b =await blog.remove()
+        }
+        res.redirect('../../')
+    } catch(err){
+        res.send(err)
+    }
 });
 
 module.exports = router;

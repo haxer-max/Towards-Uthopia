@@ -2,6 +2,10 @@ const express = require("express");
 const router = express.Router();
 const mongoose = require("mongoose");
 
+const authmiddle=require('../../config/auth_middleware')
+const commonauth= authmiddle.commonauth
+const userspecificauth= authmiddle.userspecificauth
+
 const User = require("../../models/users");
 
 router.get("/a", (req, res) => {
@@ -13,7 +17,7 @@ router.get("/a", (req, res) => {
         });
 });
 
-router.get("/:ID", (req, res) => {
+router.get("/:ID",userspecificauth, (req, res) => {
     User.findById(req.params.ID)
         .exec()
         .then((user) => {
@@ -25,7 +29,7 @@ router.get("/:ID", (req, res) => {
         });
 });
 
-router.delete("/:ID/delete", (req, res) => {
+router.delete("/:ID/delete",userspecificauth, (req, res) => {
     User.findByIdAndRemove(req.params.ID)
         .exec()
         .then((result) => {
@@ -41,7 +45,7 @@ router.delete("/:ID/delete", (req, res) => {
 
 
 
-router.patch("/:ID/edit", (req, res) => {
+router.patch("/:ID/edit",userspecificauth, (req, res) => {
     User.findById(req.params.ID)
         .exec()
         .then((blog) => {

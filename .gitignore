@@ -3,5 +3,5 @@ node_modules
 requests.rest
 requestuser.rest
 examples.txt
-uploads/
-images/
+uploads/*
+images/*

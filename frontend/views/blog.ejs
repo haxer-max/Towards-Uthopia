@@ -13,6 +13,7 @@
 
 </div>
 
+<% if(author._id == userid){ %> 
 <div style="width: 80%; margin: auto; margin-top: 0px;  padding: 3%; padding-top: 5px;" >
 
     <a class="btn btn-primary" href="/blogs/<%= _id %>/edit">Edit</a>
@@ -20,4 +21,6 @@
     <a class="btn btn-danger" href="/blogs/<%= _id %>/delete_blog">Delete</a>
 
 </div>
+<% } %> 
+
 <%- include('../partial/footer') %>

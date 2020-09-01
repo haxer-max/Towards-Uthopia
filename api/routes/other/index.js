@@ -1,7 +1,10 @@
 const express = require('express');
 const router = express.Router();
 
-const commonauth= require('../../config/auth_middleware').commonauth
+const authmiddle=require('../../config/auth_middleware')
+const commonauth= authmiddle.commonauth
+const userspecificauth= authmiddle.userspecificauth
+
 
 const Blog = require("../../models/blogs");
 
@@ -39,7 +42,7 @@ router.use("/users", usersRouter);
 
 router.use("/blogs", blogsRouter);
 
-router.use("/profile", profileRouter);
+router.use("/profile" ,profileRouter);
 
 router.use("/auth",authRouter)
 
