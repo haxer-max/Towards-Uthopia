@@ -12,6 +12,8 @@ const usersRouter = require("./users");
 const blogsRouter = require("./blogs");
 const profileRouter = require("./profile");
 const authRouter = require('../auth/auth');
+const commentRouter=require('./comment')
+
 const fs = require('fs')
 const https=require('https')
 saveImage=(url,path)=>{
@@ -45,6 +47,8 @@ router.use("/blogs", blogsRouter);
 router.use("/profile" ,profileRouter);
 
 router.use("/auth",authRouter)
+
+router.use("/comment",commentRouter)
 
 //
 router.get('/p', commonauth,(req,res)=>{

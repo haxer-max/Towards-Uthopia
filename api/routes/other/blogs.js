@@ -8,6 +8,8 @@ const upload=require('../../config/multerconfig')();
 const commonauth= require('../../config/auth_middleware').commonauth
 
 const Blog = require("../../models/blogs");
+const Comment = require("../../models/comments");
+
 
 //
 
@@ -29,19 +31,17 @@ router.get("/new_blog",commonauth,(req,res)=>{
 })
 
 router.post("/new_blog", commonauth, upload.single('blogimage'), async(req, res) => {
-    console.log(req.file);
-    console.log("HEY")
-    const blog = new Blog({
-        _id: new mongoose.Types.ObjectId(),
-        title: req.body.title,
-        content: req.body.content,
-        author: req.userid,
-        //blogimage: '/uploads/'+req.file.filename,
-    });
-
-    if(req.file) blog.blogimage='/uploads/'+req.file.filename;
-
     try{
+        console.log(req.file);
+        const blog = new Blog({
+            _id: new mongoose.Types.ObjectId(),
+            title: req.body.title,
+            content: req.body.content,
+            author: req.userid,
+        });
+
+        if(req.file) blog.blogimage='/uploads/'+req.file.filename;
+    
         result=await blog.save()
         console.log(result);
         res.redirect('/blogs/'+result._id)
@@ -51,32 +51,58 @@ router.post("/new_blog", commonauth, upload.single('blogimage'), async(req, res)
     }
 });
 
-/*
-{ fieldname: 'blogimage',
-  originalname: '5e32f2a324306a19834af322.jpg',
-  encoding: '7bit',
-  mimetype: 'image/jpeg',
-  destination: 'uploads/',
-  filename: '79b5aab14e79cad78776c5c0ee1583e4',
-  path: 'uploads\\79b5aab14e79cad78776c5c0ee1583e4',
-  size: 35859 }
-*/
-
 
 router.get("/:ID", async(req, res) => {
     try{
-        blog= await Blog.findById(req.params.ID).populate('author').exec()
-        
-        console.log(blog)
+        const [blog,comments]= await Promise.all([
+            Blog.findById(req.params.ID).populate('author').exec(),
+            Comment.find({forblog:req.params.ID}).populate('writer').exec()
+        ])
         blog.UserIsAuth=req.UserIsAuth;
         blog.name= req.theUserName;
-        blog.userid=req.userid
+        blog.userid=req.userid;
+        blog.comments=comments
+        //console.log(blog)
+        //console.log(comments)
         res.render('blog',blog);
     }catch(err){
         res.send(err);
     }
 });
 
+router.post("/:ID/new_comment", async(req, res) => {
+    try{
+        console.log("COMMENT  ")
+        const comment = new Comment({
+            _id: new mongoose.Types.ObjectId(),
+            content: req.body.content,
+            writer: req.userid,
+            forblog: req.params.ID,
+        });
+        console.log(comment);
+        await comment.save();
+        res.redirect('/blogs/'+req.params.ID);
+    }catch(err){
+        res.send(err);
+    }
+});
+/*
+router.post("/:ID/delete_comment/:commentid", async(req, res) => {
+    try{
+        const comment=await Comment.findById(req.params.commentid).exec()
+        if(comment.writer==req.userid|| comment.forblog.author== req.userid) 
+        {
+            await blog.remove()
+        }
+        res.redirect('../../')
+        console.log(comment);
+        await comment.save();
+        res.redirect('/blogs/'+req.params.ID);
+    }catch(err){
+        res.send(err);
+    }
+});
+*/
 router.get("/:ID/edit", async(req, res) => {
     try{
         blog=await Blog.findById(req.params.ID).populate('author').exec()
