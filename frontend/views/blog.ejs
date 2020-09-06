@@ -17,11 +17,20 @@
 <% if(author._id == userid){ %>
 <div
     style=" width: 80%; margin: auto; margin-top: 0px; margin-bottom: 0px;  padding: 3%; padding-top: 5px; padding-bottom: 5px;">
-
-    <a class="btn btn-primary" href="/blogs/<%= _id %>/edit">Edit</a>
-    <span style="margin-right: 10px;"></span>
-    <a class="btn btn-danger" href="/blogs/<%= _id %>/delete_blog">Delete</a>
-
+    <form action="/blogs/<%= _id %>/editImage" method="post" enctype="multipart/form-data">
+        <a class="btn btn-primary" href="/blogs/<%= _id %>/edit">Edit</a>
+        <span style="margin-right: 10px;"></span>
+        <a class="btn btn-danger" href="/blogs/<%= _id %>/delete_blog">Delete</a>
+        
+        <span style="margin-right: 40px;"></span>
+        
+        <button type="button" class="btn btn-info" onclick="editImage()">Edit Image</button>
+        <span style="display: none;" id="imageform">
+            <input type="file" name="blogimage" id="">
+            <button  class="btn btn-success" type="submit">Add</button>
+        </span>
+    
+    </form>
 </div>
 <% } %>
 
@@ -50,5 +59,14 @@
         <% } %>
 </div>
 
-
+<script>
+    function editImage() {
+  var x = document.getElementById("imageform");
+  if (x.style.display === "none") {
+    x.style.display = "inline";
+  } else {
+    x.style.display = "none";
+  }
+}
+</script>
 <%- include('../partial/footer') %>
