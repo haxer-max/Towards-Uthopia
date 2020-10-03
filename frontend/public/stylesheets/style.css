@@ -7,3 +7,27 @@ body {
 a {
   color: green;
 }
+
+#pass-card{
+	margin: 25% auto;
+	border: 1px solid slateblue;
+	
+}
+
+#pass-card .card-body{
+	font-family: 'Concert One', cursive;
+	text-align: center;
+	justify-content: center;
+}
+
+#pass-card .card-title{
+font-weight: 500;	
+}
+
+#pass-card .form-group{
+	margin-top: 10px;
+	margin-bottom: 5px;
+	margin-right: auto;
+	margin-left: auto;
+	width: 50%;
+}
